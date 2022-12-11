@@ -1,20 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.png";
-import {HttpAgent} from "@dfinity/agent"
+import {Actor,HttpAgent} from "@dfinity/agent"
 import { idlFactory } from "../../../declarations/nft";
 import {Principal} from "@dfinity/principal"
 
+
 function Item(props) {
+  const [name,setName]= useState();
+  //const [owner,setOwner] = useState();
+
   const id = Principal.fromText(props.id);
   const localHost = "http://127.0.0.1:8000/?canisterId=r7inp-6aaaa-aaaaa-aaabq-cai";
   const agent = new HttpAgent({host: localHost});
+
 
   async function loadNFT(){
     const NFTActor = await Actor.createActor(idlFactory,{
       agent,
       canisterId:id
     });
-  }
+   // const ownerName = await NFTActor.getOwner();
+    const name = await NFTActor.getName();
+    //setOwner(ownerName);
+    setName(name);
+  };
+
   //call only first time by using ,[]
   useEffect(()=>{
     loadNFT()
@@ -29,10 +39,10 @@ function Item(props) {
         />
         <div className="disCardContent-root">
           <h2 className="disTypography-root makeStyles-bodyText-24 disTypography-h5 disTypography-gutterBottom">
-            CryptoDunks #312<span className="purple-text"></span>
+            {name}<span className="purple-text"></span>
           </h2>
           <p className="disTypography-root makeStyles-bodyText-24 disTypography-body2 disTypography-colorTextSecondary">
-            Owner: sdfsdf-erwerv-sdf
+            Owner: 123
           </p>
         </div>
       </div>

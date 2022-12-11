@@ -13,7 +13,6 @@ function App() {
     <div className="App">
       <Header />
       <Item id = {NFTID}/>
-      /*<img className="bottom-space" src={homeImage} />*/
       <Footer />
     </div>
   );
